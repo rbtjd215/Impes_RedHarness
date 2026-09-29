@@ -1,0 +1,54 @@
+[
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-B-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "B",
+    "producer": "DISPATCHER",
+    "observation": {"source": "fixture only"},
+    "actions": [],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Pass the mock input to B"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-B-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "B",
+    "producer": "B",
+    "observation": {"mock_page": "inert XSS sample; no browser opened"},
+    "actions": [{"kind": "mock renderer check", "result": "ran in fixture"}],
+    "status": "UNKNOWN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Ask Oracle to classify the unverified observation"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-B-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "B",
+    "producer": "ORACLE",
+    "observation": {"mock_verifier_result": "insufficient evidence"},
+    "actions": [{"kind": "mock verification", "result": "fixture only"}],
+    "status": "UNKNOWN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Collect a permitted external confirmation"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-B-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "B",
+    "producer": "REPORTER",
+    "observation": {"report": "fixture only"},
+    "actions": [{"kind": "mock report write"}],
+    "status": "UNKNOWN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Retain the reason for UNKNOWN"
+  }
+]

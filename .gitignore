@@ -1,0 +1,16 @@
+# Local execution artifacts and secrets never belong in this public repository.
+**/runs/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.sqlite
+*.sqlite3
+**/request.txt
+**/response.txt
+**/trace.jsonl

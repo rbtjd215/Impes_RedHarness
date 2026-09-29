@@ -1,0 +1,54 @@
+[
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-A-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "A",
+    "producer": "DISPATCHER",
+    "observation": {"source": "fixture only"},
+    "actions": [],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Pass the mock input to A"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-A-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "A",
+    "producer": "A",
+    "observation": {"mock_lab_response": "completion marker shown"},
+    "actions": [{"kind": "mock action", "result": "fixture only"}],
+    "status": "UNKNOWN",
+    "evidence": [{"kind": "candidate", "value": "RH-MOCK-DONE"}],
+    "error": null,
+    "next_action": "Ask Oracle to verify the marker"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-A-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "A",
+    "producer": "ORACLE",
+    "observation": {"mock_verifier_result": "marker matched"},
+    "actions": [{"kind": "mock verification", "result": "fixture only"}],
+    "status": "PASS",
+    "evidence": [{"source": "mock verifier", "value": "RH-MOCK-DONE"}],
+    "error": null,
+    "next_action": "Record the mock result"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-MOCK-A-01",
+    "target_id": "RH-CASE-01-MOCK",
+    "selected_module": "A",
+    "producer": "REPORTER",
+    "observation": {"report": "fixture only"},
+    "actions": [{"kind": "mock report write"}],
+    "status": "PASS",
+    "evidence": [{"source": "mock verifier", "value": "RH-MOCK-DONE"}],
+    "error": null,
+    "next_action": "Review the mock log"
+  }
+]
