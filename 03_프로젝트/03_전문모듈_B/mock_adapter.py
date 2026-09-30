@@ -174,14 +174,22 @@ def analyze_mock(envelope: Any) -> dict[str, Any]:
 
     if source["error"] is None and "response_html" in observation:
         checked.append("reflection")
-        actions.append({"kind": "offline_mock_reflection_check"})
+        actions.append({"kind": "offline_mock_reflection_check", "source": "B offline mock analyzer",
+                        "summary": "Check synthetic input for an inert reflected marker"})
         contexts = _reflection_contexts(observation["response_html"], observation["marker"])
         if contexts:
-            evidence.append({"kind": "reflected_marker_candidate", "contexts": contexts})
+            evidence.append({"kind": "reflected_marker_candidate", "contexts": contexts,
+                             "source": "B offline mock analyzer", "criterion_id": "XSS-REFLECTION-CANDIDATE",
+                             "summary": "Inert marker reflection candidate; no browser verification",
+                             "execution_mode": "offline_mock"})
     if source["error"] is None and "script_source" in observation:
         checked.append("dom")
-        actions.append({"kind": "offline_mock_dom_check"})
-        evidence.extend(_dom_candidates(observation["script_source"]))
+        actions.append({"kind": "offline_mock_dom_check", "source": "B offline mock analyzer",
+                        "summary": "Check synthetic script text for source-to-sink candidates"})
+        for candidate in _dom_candidates(observation["script_source"]):
+            evidence.append({**candidate, "criterion_id": "XSS-DOM-FLOW-CANDIDATE",
+                             "summary": "Static source-to-sink candidate; no browser verification",
+                             "execution_mode": "offline_mock"})
 
     ran = bool(checked)
     return {
@@ -192,6 +200,7 @@ def analyze_mock(envelope: Any) -> dict[str, Any]:
         "producer": "B",
         "observation": {
             "mode": "offline_mock",
+            "execution_mode": "offline_mock",
             "checked": checked,
             "candidate_count": len(evidence),
         },

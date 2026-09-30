@@ -1,0 +1,106 @@
+[
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-FAIL",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "DISPATCHER",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "source": "fabricated scenario"
+    },
+    "actions": [],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Pass synthetic input to the reference specialist"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-FAIL",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "A",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "source": "fabricated scenario"
+    },
+    "actions": [
+      {
+        "kind": "synthetic_observation",
+        "source": "offline reference",
+        "summary": "Read fabricated completion input"
+      }
+    ],
+    "status": "UNKNOWN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Ask the reference Oracle"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-FAIL",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "ORACLE",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "source": "fabricated scenario",
+      "synthetic_check": "not_matched"
+    },
+    "actions": [
+      {
+        "kind": "verify",
+        "source": "offline reference",
+        "summary": "Compare a fabricated criterion",
+        "criterion_id": "MOCK-COMPLETION-MARKER"
+      }
+    ],
+    "status": "FAIL",
+    "evidence": [
+      {
+        "kind": "verification",
+        "source": "synthetic verifier",
+        "criterion_id": "MOCK-COMPLETION-MARKER",
+        "summary": "Fabricated completion criterion comparison; no real target",
+        "execution_mode": "offline_mock",
+        "execution_basis": "specialist_execution",
+        "result": "not_matched"
+      }
+    ],
+    "error": null,
+    "next_action": "Preserve the Oracle envelope"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-FAIL",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "REPORTER",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "storage": "not_attempted"
+    },
+    "actions": [
+      {
+        "kind": "report",
+        "source": "offline reference",
+        "summary": "Prepare the synthetic run for storage"
+      }
+    ],
+    "status": "FAIL",
+    "evidence": [
+      {
+        "kind": "verification",
+        "source": "synthetic verifier",
+        "criterion_id": "MOCK-COMPLETION-MARKER",
+        "summary": "Fabricated completion criterion comparison; no real target",
+        "execution_mode": "offline_mock",
+        "execution_basis": "specialist_execution",
+        "result": "not_matched"
+      }
+    ],
+    "error": null,
+    "next_action": "Store and reread the synthetic run"
+  }
+]
