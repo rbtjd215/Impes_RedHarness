@@ -35,12 +35,14 @@ status: working-rule
 
 ## Git, 기록, PR
 
-1. 각 작업자는 저장소를 자기 환경에 clone하고 현재 Git author/committer 설정을 스스로 확인한다. 실제 값은 공개 기록이나 채팅에 붙여 넣지 않는다. 변경이 필요하면 **본인만** 저장소 로컬 설정을 바꾼다. GitHub 제공 noreply 주소를 사용할 수 있으며 정확한 주소는 각자 GitHub Settings → Emails에서 확인한다. [GitHub 공식 안내](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)를 따른다.
+1. 각 작업자는 저장소를 자기 환경에 clone하고 현재 Git author/committer 설정을 스스로 확인한다. 실제 값은 공개 기록이나 채팅에 붙여 넣지 않는다. 본인이 직접 설정하거나, 본인이 확인한 공개 표시 이름·GitHub noreply 주소의 **저장소 로컬 적용을 명시적으로 위임한 경우에만** Codex가 적용한다. 값을 추측하거나 다른 사람·전역 설정을 바꾸지 않는다. 정확한 noreply 주소는 각자 GitHub Settings → Emails에서 확인한다. [GitHub 공식 안내](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)를 따른다.
 2. 최신 확인 가능한 기준에서 작업별 브랜치를 만들고 PR을 사용한다. codex/a-..., codex/b-..., codex/oracle-... 등 이름은 예시다. 기존 변경이 있으면 별도 체크아웃으로 격리하고 무차별 git add ., 다른 사람 파일 덮어쓰기, 강제 push를 피한다. 팀은 내부 작업·검토·병합 순서를 자율적으로 정한다.
 3. 첫 의미 있는 수정이나 테스트부터 03_프로젝트/91_개발작업기록/YYYY-MM-DD_<team>_<task-id>.md를 만든다. 한 작업/브랜치에 한 파일을 두고 동시에 편집하지 않는다. 주요 결과, 확정된 실패 원인, 범위 변경, 인계 때 작은 편집을 묶어 갱신한다. 실제 Git 변경·실행한 테스트·막힘·다음 행동을 남긴다. 전체 대화·숨은 추론·추측한 결정·비밀·개인정보와 사람별 작업량 지표는 기록하지 않는다.
 4. Git author는 설정된 작성자, committer는 커밋을 생성·적용한 사람이다. 각자 자기 변경을 커밋하고 커밋 SHA·PR로 추적한다. 둘 다 실제 편집자의 신원 인증은 아니므로 권한은 GitHub 설정으로 관리한다. 별도 이름·짝·작성자 칸을 만들지 않는다. 여러 사람의 커밋을 squash하면 상세 이력이 줄어드니 PR Commits를 확인하고 필요하면 일반 merge로 보존한다. 팀별 PR은 실제 검증과 남은 위험을 적고, 다른 팀 영향 또는 공통 계약 예외가 있을 때만 해당 조율·승인 근거를 덧붙인다.
 
 ## 작업 종료와 재시작
+
+처음 환경을 준비한 팀원은 [환경 준비 완료 절차](환경준비_완료확인.md)에 따라 필수 mock·회귀 검사와 작업별 기록의 브랜치 업로드를 확인한다. 모두 확인되면 Codex가 본인의 계획서/구현물을 요청한다. 이미 제공된 자료는 최소 도입안 검토로 이어가고 팀이 채택 범위를 정한다. 같은 채팅에서 반복 요청하지 않는다.
 
 “작업 종료”나 “인계”에는 실제 git status, HEAD·기준 커밋, 변경·미추적 파일, 테스트 결과를 확인한다. 자기 작업 기록을 갱신하고 목표·변경·검증·막힘·다음 행동의 짧은 인계와 PR 설명을 작성한다. 종료 메시지는 승인·병합·공개 배포를 뜻하지 않는다. 앱을 닫은 뒤 자동으로 기록된다고 약속하지 않는다.
 

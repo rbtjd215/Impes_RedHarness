@@ -13,7 +13,7 @@ git var GIT_AUTHOR_IDENT
 git var GIT_COMMITTER_IDENT
 ```
 
-값은 **본인이 로컬에서만 확인**하고 공개 채팅·PR·작업 기록에 붙여 넣지 않는다. 현재 값이 본인이 쓰려는 공개 작성자 정보와 다르면, 본인이 직접 확인한 값으로 이 저장소에서만 설정한다. Codex가 임의의 이름·이메일을 골라 설정하거나 다른 사람의 Git 설정을 바꾸게 하지 않는다.
+값은 **본인이 로컬에서만 확인**하고 공개 채팅·PR·작업 기록에 붙여 넣지 않는다. 현재 값이 본인이 쓰려는 공개 작성자 정보와 다르면, 직접 설정하거나 본인이 확인한 공개 값의 저장소 로컬 적용만 Codex에 명시적으로 위임한다. Codex가 임의의 이름·이메일을 골라 설정하거나 다른 사람·전역 Git 설정을 바꾸게 하지 않는다.
 
 ```powershell
 git config --local user.name "<본인이 선택한 공개 표시 이름>"
@@ -23,6 +23,8 @@ git config --local user.email "<본인 GitHub 설정에서 확인한 noreply 주
 GitHub Settings → Emails에서 **Keep my email addresses private**와 본인에게 제공된 noreply 주소를 확인한다. 주소 형식은 계정에 따라 다르므로 예시를 실제 값처럼 복사하지 않는다. [GitHub의 커밋 이메일 설정 안내](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)를 따른다. Git author는 설정된 작성자, committer는 커밋을 생성·적용한 사람으로 기록된다. **둘 다 실제 편집자를 인증하지 않는다.** 각자 자기 변경을 커밋하고 SHA·PR로 범위를 확인한다.
 
 ## 2. Codex에서 파트 시작
+
+환경 준비 뒤에는 [완료 확인 절차](환경준비_완료확인.md)로 첫 테스트·기록 업로드를 연습한다. 예: `A파트 진행. 환경 준비 완료 테스트를 실행하고 내 작업별 기록만 브랜치에 commit·push해 PR을 만들어줘. 원격 반영도 확인해줘.` B팀은 `B파트 진행`으로 바꾼다. 필수 검사·업로드 확인 뒤 Codex가 본인 계획서나 기존 구현물을 요청한다. 자료는 채팅 첨부 또는 로컬 경로로 제공하고, 공개 도입 범위는 팀이 검토해 정한다.
 
 Codex는 [역할표](개발_역할표.md), [공통 계약](PROJECT_SPEC.md), 해당 팀 안내, 최근 [작업별 기록](../91_개발작업기록/README.md), Git 상태를 읽고 **목표 / 지금 할 일 / 수정 경로 / 테스트 방법**을 짧게 보여 준다. 파트가 명확하면 바로 진행하고 `작업 시작`만으로 불분명할 때만 파트를 확인한다. 이름 확인은 필요하지 않으며 GitHub 권한 검증도 아니다.
 
@@ -34,7 +36,7 @@ A파트 진행. 역할표·공통 계약·A팀 안내·최근 인계를 Git 상�
 B파트 진행. XSS 팀 안내와 최근 인계를 읽고 지금 할 일, B팀 경로, 검증 방법을 알려줘.
 ```
 
-`XSS 작업`, `Oracle 작업`, `Reporter 작업`도 사용할 수 있다. 현재 파트는 **A=인증우회, B=XSS, 별도 Oracle·Reporter**다.
+`XSS 작업`, `Oracle 작업`, `Reporter 작업`도 사용할 수 있다. 현재 파트는 **A=인증우회, B=XSS, 별도 Oracle·Reporter**다. 새 채팅에서 파트를 말하면 되고 `@`는 필요 없다. 같은 채팅의 매 요청마다 반복하지 않는다.
 
 ## 3. 기능 요청·기록·종료
 
