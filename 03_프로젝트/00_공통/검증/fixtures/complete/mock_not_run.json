@@ -1,0 +1,73 @@
+[
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-NOT_RUN",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "DISPATCHER",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "source": "fabricated scenario"
+    },
+    "actions": [],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Pass synthetic input to the reference specialist"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-NOT_RUN",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "A",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "source": "fabricated scenario"
+    },
+    "actions": [],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Ask the reference Oracle"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-NOT_RUN",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "ORACLE",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "source": "fabricated scenario",
+      "synthetic_check": "not_checked"
+    },
+    "actions": [],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Preserve the Oracle envelope"
+  },
+  {
+    "contract_version": "1.0",
+    "run_id": "RH-REFERENCE-A-NOT_RUN",
+    "target_id": "SYNTHETIC-ONLY",
+    "selected_module": "A",
+    "producer": "REPORTER",
+    "observation": {
+      "execution_mode": "offline_mock",
+      "storage": "not_attempted"
+    },
+    "actions": [
+      {
+        "kind": "report",
+        "source": "offline reference",
+        "summary": "Prepare the synthetic run for storage"
+      }
+    ],
+    "status": "NOT_RUN",
+    "evidence": [],
+    "error": null,
+    "next_action": "Store and reread the synthetic run"
+  }
+]

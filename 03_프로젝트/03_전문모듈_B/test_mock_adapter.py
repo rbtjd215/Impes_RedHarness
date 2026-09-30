@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import unittest
 import sys
+import copy
 from pathlib import Path
 
 from mock_adapter import analyze_mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "00_공통" / "검증"))
-from check_contract import validate_document
+from check_contract import validate_complete_run, validate_document
+from run_mock_pipeline import build_mock_run
 
 
 def dispatcher(observation: dict | None = None) -> dict:
@@ -40,9 +42,9 @@ class BMockAdapterTests(unittest.TestCase):
         self.assertEqual(result["producer"], "B")
         self.assertEqual(result["selected_module"], "B")
         self.assertEqual(result["status"], "UNKNOWN")
-        self.assertEqual(result["evidence"], [
-            {"kind": "reflected_marker_candidate", "contexts": ["text"]}
-        ])
+        self.assertEqual(len(result["evidence"]), 1)
+        self.assertEqual(result["evidence"][0]["kind"], "reflected_marker_candidate")
+        self.assertEqual(result["evidence"][0]["contexts"], ["text"])
         self.assertNotIn("response_html", result["observation"])
 
     def test_reflected_attribute_and_comment_are_labelled(self) -> None:
@@ -60,9 +62,10 @@ class BMockAdapterTests(unittest.TestCase):
     def test_direct_dom_source_to_sink_is_candidate_only(self) -> None:
         result = analyze_mock(dispatcher({"script_source": "box.innerHTML = location.hash;"}))
         self.assertEqual(result["status"], "UNKNOWN")
-        self.assertEqual(result["evidence"], [{
-            "kind": "dom_source_sink_candidate", "source": "location.hash", "sink": "innerHTML"
-        }])
+        self.assertEqual(len(result["evidence"]), 1)
+        self.assertEqual(result["evidence"][0]["kind"], "dom_source_sink_candidate")
+        self.assertEqual(result["evidence"][0]["source"], "location.hash")
+        self.assertEqual(result["evidence"][0]["sink"], "innerHTML")
 
     def test_ordered_variable_dom_flow(self) -> None:
         result = analyze_mock(dispatcher({
@@ -132,6 +135,15 @@ class BMockAdapterTests(unittest.TestCase):
             source = dispatcher(observation)
             source["error"] = upstream_error
             self.assertEqual(validate_document([source, analyze_mock(source)]), [])
+
+    def test_complete_profile_accepts_b_candidate_and_keeps_input_unchanged(self) -> None:
+        records = build_mock_run("UNKNOWN", "B")
+        records[0]["observation"].update(response_html="<p>RHMARK</p>", marker="RHMARK")
+        original = copy.deepcopy(records[0])
+        records[1] = analyze_mock(records[0])
+        self.assertEqual(records[0], original)
+        self.assertEqual(validate_complete_run(records), [])
+        self.assertEqual(records[2]["status"], "UNKNOWN")
 
 
 if __name__ == "__main__":

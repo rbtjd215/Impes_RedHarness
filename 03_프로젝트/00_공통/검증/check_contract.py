@@ -160,11 +160,100 @@ def validate_document(value: Any) -> list[str]:
     return errors
 
 
+def validate_complete_run(value: Any) -> list[str]:
+    """Check the opt-in complete-v1 profile; never verify evidence truth."""
+    errors = validate_document(value)
+    if not isinstance(value, list) or len(value) != 4:
+        return errors + ["complete-v1: expected exactly four envelopes"]
+    if any(not isinstance(record, dict) for record in value):
+        return errors
+    selected = value[0].get("selected_module")
+    producers = [record.get("producer") for record in value]
+    if producers != ["DISPATCHER", selected, "ORACLE", "REPORTER"]:
+        errors.append("complete-v1: expected DISPATCHER, selected specialist, ORACLE, REPORTER")
+
+    modes: list[Any] = []
+    for index, record in enumerate(value):
+        label = f"records[{index}]"
+        observation = record.get("observation")
+        mode = observation.get("execution_mode") if isinstance(observation, dict) else None
+        modes.append(mode)
+        if mode not in ("offline_mock", "local_lab"):
+            errors.append(f"{label}.observation.execution_mode: expected offline_mock or local_lab")
+        actions = record.get("actions")
+        if isinstance(actions, list):
+            for position, action in enumerate(actions):
+                action_label = f"{label}.actions[{position}]"
+                if not isinstance(action, dict):
+                    errors.append(f"{action_label}: expected an action object")
+                    continue
+                for key in ("kind", "source", "summary"):
+                    if not _nonempty_string(action.get(key)):
+                        errors.append(f"{action_label}.{key}: expected a non-empty string")
+        evidence = record.get("evidence")
+        if not isinstance(evidence, list):
+            continue
+        for position, item in enumerate(evidence):
+            item_label = f"{label}.evidence[{position}]"
+            if not isinstance(item, dict):
+                errors.append(f"{item_label}: expected an evidence object")
+                continue
+            for key in ("kind", "source", "criterion_id"):
+                if not _nonempty_string(item.get(key)):
+                    errors.append(f"{item_label}.{key}: expected a non-empty string")
+            if not any(_nonempty_string(item.get(key)) for key in ("summary", "evidence_ref")):
+                errors.append(f"{item_label}: expected a non-empty summary or evidence_ref")
+            if item.get("execution_mode") != mode:
+                errors.append(f"{item_label}.execution_mode: must match its envelope")
+    if modes and any(mode != modes[0] for mode in modes[1:]):
+        errors.append("complete-v1: execution_mode must be consistent across the run")
+
+    oracle = value[2]
+    status = oracle.get("status")
+    evidence = oracle.get("evidence")
+    specialist = value[1]
+    if status in ("PASS", "FAIL") and isinstance(evidence, list):
+        expected_result = "matched" if status == "PASS" else "not_matched"
+        checks = []
+        for item in evidence:
+            if not isinstance(item, dict) or item.get("kind") != "verification":
+                errors.append("complete-v1: final PASS/FAIL needs verification evidence")
+                continue
+            if item.get("result") != expected_result:
+                errors.append("complete-v1: verification result must support ORACLE status")
+            basis = item.get("execution_basis")
+            if basis not in ("specialist_execution", "independent_check"):
+                errors.append("complete-v1: verification needs an execution_basis")
+            if basis == "specialist_execution" and (
+                specialist.get("status") != "UNKNOWN" or not specialist.get("actions")
+            ):
+                errors.append("complete-v1: specialist_execution needs recorded specialist activity")
+            if _nonempty_string(item.get("criterion_id")):
+                checks.append(item["criterion_id"])
+        oracle_actions = oracle.get("actions")
+        recorded_checks = {
+            action.get("criterion_id") for action in oracle_actions
+            if isinstance(action, dict) and action.get("kind") == "verify"
+            and _nonempty_string(action.get("criterion_id"))
+        } if isinstance(oracle_actions, list) else set()
+        if any(criterion not in recorded_checks for criterion in checks):
+            errors.append("complete-v1: verification evidence needs a matching ORACLE verify action")
+    if status == "NOT_RUN" and (
+        specialist.get("status") != "NOT_RUN" or specialist.get("actions")
+        or oracle.get("actions") or evidence
+    ):
+        errors.append("complete-v1: NOT_RUN requires no recorded execution or final evidence")
+    if status == "UNKNOWN" and not specialist.get("actions") and not oracle.get("actions"):
+        errors.append("complete-v1: UNKNOWN needs recorded activity with insufficient evidence")
+    return errors
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Validate mock RedHarness v1 JSON envelopes; no network requests."
     )
     parser.add_argument("paths", nargs="+", type=Path, help="JSON fixture path(s)")
+    parser.add_argument("--complete", action="store_true", help="Require the complete-v1 four-stage profile")
     args = parser.parse_args(argv)
 
     failed = False
@@ -176,7 +265,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{path}: FAIL: {exc}", file=sys.stderr)
             failed = True
             continue
-        errors = validate_document(value)
+        errors = validate_complete_run(value) if args.complete else validate_document(value)
         if errors:
             print(f"{path}: FAIL", file=sys.stderr)
             for error in errors:
@@ -184,7 +273,8 @@ def main(argv: list[str] | None = None) -> int:
             failed = True
         else:
             count = len(value) if isinstance(value, list) else 1
-            print(f"{path}: PASS ({count} envelope(s))")
+            profile = " complete-v1" if args.complete else ""
+            print(f"{path}: PASS{profile} ({count} envelope(s))")
     return 1 if failed else 0
 
 
