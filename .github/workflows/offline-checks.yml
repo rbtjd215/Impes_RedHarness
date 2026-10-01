@@ -20,13 +20,5 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
-      - name: Existing partial contract fixtures
-        run: python -B "03_프로젝트/00_공통/검증/check_contract.py" "03_프로젝트/00_공통/검증/fixtures/mock_a_pass.json" "03_프로젝트/00_공통/검증/fixtures/mock_b_unknown.json"
-      - name: Contract and storage regression tests
-        run: >-
-          python -B -c 'import unittest; suite = unittest.TestLoader().discover("03_프로젝트/00_공통/검증", pattern="test_*.py"); count = suite.countTestCases(); print(f"Discovered {count} contract tests"); result = unittest.TextTestRunner(verbosity=2).run(suite) if count else None; raise SystemExit(0 if result is not None and result.wasSuccessful() else 1)'
-      - name: B offline adapter tests
-        run: >-
-          python -B -c 'import unittest; suite = unittest.TestLoader().discover("03_프로젝트/03_전문모듈_B", pattern="test_*.py"); count = suite.countTestCases(); print(f"Discovered {count} B tests"); result = unittest.TextTestRunner(verbosity=2).run(suite) if count else None; raise SystemExit(0 if result is not None and result.wasSuccessful() else 1)'
-      - name: Four-state complete profile and storage reproduction
-        run: python -B "03_프로젝트/00_공통/검증/run_mock_pipeline.py" --all
+      - name: Registered required offline checks
+        run: python -B tools/run_checks.py
