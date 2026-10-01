@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "groups": [
+    {
+      "id": "common",
+      "path": "03_프로젝트/00_공통/검증",
+      "required": true,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "path": "03_프로젝트/03_전문모듈_B",
+      "required": true,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "path": "tools",
+      "required": true,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    },
+    {
+      "id": "a",
+      "path": "03_프로젝트/02_전문모듈_A",
+      "required": false,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    },
+    {
+      "id": "oracle",
+      "path": "03_프로젝트/04_Oracle_Reporter",
+      "required": false,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    },
+    {
+      "id": "dispatcher",
+      "path": "03_프로젝트/01_Dispatcher",
+      "required": false,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    },
+    {
+      "id": "integration",
+      "path": "03_프로젝트/05_통합",
+      "required": false,
+      "implementation_extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rs",
+        ".c",
+        ".cpp",
+        ".cs"
+      ],
+      "checks": [
+        {
+          "kind": "unittest",
+          "pattern": "test_*.py"
+        }
+      ]
+    }
+  ],
+  "references": [
+    [
+      "{python}",
+      "-B",
+      "03_프로젝트/00_공통/검증/check_contract.py",
+      "03_프로젝트/00_공통/검증/fixtures/mock_a_pass.json",
+      "03_프로젝트/00_공통/검증/fixtures/mock_b_unknown.json"
+    ],
+    [
+      "{python}",
+      "-B",
+      "03_프로젝트/00_공통/검증/run_mock_pipeline.py",
+      "--all"
+    ],
+    [
+      "{python}",
+      "-B",
+      "03_프로젝트/00_공통/검증/run_mock_pipeline.py",
+      "--all",
+      "--module",
+      "B"
+    ]
+  ]
+}

@@ -1,6 +1,6 @@
 # 공통 계약·완성 흐름·합성 저장 검증
 
-[PROJECT_SPEC.md](../PROJECT_SPEC.md)의 wire v1과 완성 프로필 `complete-v1`을 구분한다. Python 표준 라이브러리만 사용한다. 네트워크 요청·브라우저·모델 API·실제 공격·학생 모듈을 실행하지 않는다. 명령은 저장소 루트에서 실행한다.
+[PROJECT_SPEC.md](../PROJECT_SPEC.md)의 wire v1과 완성 프로필 `complete-v1`을 구분한다. 1~4절의 합성 참고 검사는 Python 표준 라이브러리만 사용하며 네트워크 요청·브라우저·모델 API·실제 공격·학생 모듈을 실행하지 않는다. 5절 등록 러너는 등록된 팀 테스트 코드를 실제 실행하므로 해당 코드의 공개 안전·오프라인 범위를 별도로 검토한다. 명령은 저장소 루트에서 실행한다.
 
 ## 1. 기존 부분 형식 검사 · 호환 유지
 
@@ -46,11 +46,17 @@ python -B -m unittest discover -s "03_프로젝트/03_전문모듈_B" -p "test_*
 
 공통 검사는 기존 부분 형식 호환, 네 상태, 필수 단계, 최소 근거, 판정/근거 연결, 독립 확인, mock/실제 라벨 혼용, Reporter 저장/재읽기·입력 불변·저장 실패·변조 감지를 다룬다. B 검사는 합성 후보와 최소 근거 외피의 연결을 다루며 실제 브라우저 증거를 다루지 않는다. 실제 테스트 수·종료 코드를 기록한다. **0개 발견은 통과가 아니다.**
 
-## 5. CI의 적용 상태
+## 5. 등록 검사 러너
 
-[`offline-checks.yml`](../../../.github/workflows/offline-checks.yml)은 모든 PR과 main push에 짧은 오프라인 검사를 실행하도록 작성했다. paths 필터 없이 위 기존 fixture·공통 테스트·B 테스트·네 상태 참고 실행을 수행하며 테스트 0개 발견은 실패시킨다. 토큰 권한은 contents: read이며 비밀값·API 키를 전달하거나 실제 랩을 호출하지 않는다.
+`tools/checks.json`에 등록된 오프라인 명령은 저장소 루트에서 `python -B tools/run_checks.py`로 실행한다. 기본 호출은 필수 common·b·tools 검사와 선택 팀 구현 상태를 확인하며 `--group common`, `--group b`, `--group tools`, `--group a`, `--group oracle`, `--group dispatcher`, `--group integration`으로 관련 범위만 선택할 수 있다. 기본 전체 실행에서 선택 팀이 미구현이면 `NOT_IMPLEMENTED`로 밝히고 현재 필수 검사만 계속한다. 미구현 팀을 `--group a`처럼 명시 선택하면 범위 미완료와 비성공 종료 코드를 낸다. 구현 없이 테스트만 있으면 `TESTS_ONLY`로 표시해 그 검사를 실행한다. 구현 파일이 있는데 테스트가 없거나 필수 검사 0개/FAIL/ERROR/SKIP/expected failure/unexpected success이면 미통과다. 완료를 주장할 때는 발견 수·실제 종료 코드·기준 SHA·검증 범위를 기록한다.
 
-2026-10-01에 [공식 checkout 사용법](https://github.com/actions/checkout#usage)과 [공식 setup-python 사용법](https://github.com/actions/setup-python#basic-usage)의 `@v7`을 확인해 사용했다. Python은 3.13으로 명시했다. **로컬 파일 작성과 로컬 검사 통과는 GitHub CI 실행이나 필수 체크/보호 설정 적용을 뜻하지 않는다.** 업로드 후 실제 PR에서 체크 이름·결과를 확인한 뒤 저장소 관리자가 필요한 설정을 결정한다. 인적 승인 수를 새 완료 조건으로 추가하지 않는다.
+이 러너는 등록된 검사 코드를 실행하며 네트워크·Git 설정·원격 조작 명령을 자체 추가하지 않는다. 등록된 검사 코드 자체를 격리하는 보안 샌드박스는 아니다. `tools/worklog.py check`의 메타블록 구조 통과와 Git clean은 이 검사 결과를 대신하지 않는다. 두 도구는 **Python 3.12 이상**을 요구하고 CI 기준은 3.13이다. `python`과 `py` 중 실제 사용하는 명령이 같은 지원 버전·환경인지 확인한다. 도구와 CI의 통과를 학생 준비 완료나 실제 모듈 완료로 표시하지 않는다.
+
+## 6. CI의 적용 상태
+
+[`offline-checks.yml`](../../../.github/workflows/offline-checks.yml)은 모든 PR과 main push에서 `python -B tools/run_checks.py` 한 명령을 실행한다. 등록된 common·b·tools 필수 검사와 구현된 선택 팀 테스트를 수행하며 선택 미구현은 `NOT_IMPLEMENTED`로 보고한다. 실제 서버 실행 여부와 결과는 해당 PR의 검사와 Actions에서 확인한다. 토큰 권한은 contents: read이며 비밀값·API 키를 전달하거나 실제 랩을 호출하지 않는다.
+
+2026-10-01에 [공식 checkout 사용법](https://github.com/actions/checkout#usage)과 [공식 setup-python 사용법](https://github.com/actions/setup-python#basic-usage)의 `@v7`을 확인해 사용했다. Python은 3.13으로 명시했다. **로컬 파일 작성과 로컬 검사 통과는 GitHub CI 실행이나 필수 체크/보호 설정 적용을 뜻하지 않는다.** main의 필수 검사는 실제 PR에서 실행된 체크 이름·결과에 맞춘다. PR·필수 CI 통과·강제 push/삭제 금지 정책의 적용은 GitHub 설정에서 확인한다. 필수 인적 승인 수는 0이다.
 
 ## 검증 한계와 기록
 
