@@ -10,83 +10,10 @@
   "branch": "codex/worklog-automation",
   "base_sha": "a9f5a9e03de52814dfdf6209c8dc6ab3bec0bd06",
   "created_at": "2026-10-01T17:19:12+09:00",
-  "captured_at": "2026-10-01T17:19:12+09:00",
+  "captured_at": "2026-10-01T19:46:55+09:00",
   "snapshot": {
-    "head": "a9f5a9e03de52814dfdf6209c8dc6ab3bec0bd06",
-    "changes": [
-      {
-        "state": " M",
-        "path": ".github/PULL_REQUEST_TEMPLATE/module-development.md"
-      },
-      {
-        "state": " M",
-        "path": ".github/workflows/offline-checks.yml"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/00_공통/CODEX_개발협업.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/00_공통/검증/README.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/00_공통/작업시작_최신확인.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/00_공통/팀원용_Codex_사용법.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/00_공통/환경준비_완료확인.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/91_개발작업기록/README.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/91_개발작업기록/작업기록_템플릿.md"
-      },
-      {
-        "state": " M",
-        "path": "03_프로젝트/91_개발작업기록/환경준비_기록_템플릿.md"
-      },
-      {
-        "state": " M",
-        "path": "AGENTS.md"
-      },
-      {
-        "state": " M",
-        "path": "README.md"
-      },
-      {
-        "state": "??",
-        "path": "tools/README.md"
-      },
-      {
-        "state": "??",
-        "path": "tools/checks.json"
-      },
-      {
-        "state": "??",
-        "path": "tools/run_checks.py"
-      },
-      {
-        "state": "??",
-        "path": "tools/test_run_checks.py"
-      },
-      {
-        "state": "??",
-        "path": "tools/test_worklog.py"
-      },
-      {
-        "state": "??",
-        "path": "tools/worklog.py"
-      }
-    ],
+    "head": "eedb20357dec0cbd9a3222b40426fc1a113e69e4",
+    "changes": [],
     "omitted_path_count": 0,
     "remote_state": "unverified",
     "tests": "unverified"
@@ -176,3 +103,11 @@
 - 공개 선별 검토: 실제 변경19경로(12수정+7추가), 계약·역할표·기존 checker/pipeline/fixture/B mock 불변. 비밀값·개인정보·원시 runs·내부 교안 복사 없음. Python3.13.12와 도구/등록 입력 동일성을 확인해 마지막 tools33 PASS 결과를 재사용했다.
 - 안내의 로컬 검토안 표기를 승인된 규칙과 실제 Git/PR/CI/설정 조회 방법으로 갱신했다. 검사 파일만으로 원격 강제가 적용됐다고 쓰지 않는다. 실제 업로드·CI·설정·병합 결과는 확인 후 기록한다.
 - 팀 계획서·미리 개발한 구현물은 도입하지 않았다. 교육자료 게시와 실제 학생/랩 검증은 이번 개발 공유 승인으로 완료 처리하지 않는다.
+
+## 원격 공유·보호 검증 체크포인트 · 2026-10-01
+
+- 개발19파일을 commit eedb20357dec0cbd9a3222b40426fc1a113e69e4로 codex/worklog-automation에 push했다. 연동 PR 생성403으로 이미 허용된 브라우저 세션에서 [PR #3](https://github.com/rbtjd215/Impes_RedHarness/pull/3)을 생성했다. base main/head codex/worklog-automation·19파일을 확인했다.
+- 실제 GitHub 서버 CI [run36850622234](https://github.com/rbtjd215/Impes_RedHarness/actions/runs/36850622234), job offline-checks 성공. Linux Python3.13.15에서 common42+b16+tools33=91 PASS, failures/errors/skipped/expected_failures/unexpected_successes 모두0, reference3 PASS. A/Oracle/Dispatcher/통합은 NOT_IMPLEMENTED이며 기능 완료가 아니다.
+- 사용자 GitHub 재인증 후 main classic 보호 규칙84045901 저장·재읽기: PR필수, GitHub Actions app의 offline-checks필수, 필수 인적 승인0, 관리자 우회 금지, 강제push/삭제 금지. up-to-date 강제·Code Owners·서명·배포 승인은 추가하지 않았다. 공개 branches/main GET에서도 protected=true·offline-checks/everyone·app15368을 확인했다. 설정 파일만으로 강제가 적용됐다고 추측하지 않았다.
+- 이 체크포인트는 문서/기록만 변경한다. 실행 코드·등록 입력은 eedb203과 동일하며 기존 로컬 결과를 재사용한다. 기록 commit 업로드 뒤 새 PR head의 필수 서버 CI를 확인하고 일반 merge한다. 최종 main SHA는 원격/PR 완료 감사로 확인하며 자기 SHA를 기록하려고 반복 commit하지 않는다.
+- 실제 학생 설치/권한·실제 모듈/랩·Python3.12 실행은 SKIP 유지. 교육 개정안은 별도 최종 한영 검토·게시 승인을 기다린다.
