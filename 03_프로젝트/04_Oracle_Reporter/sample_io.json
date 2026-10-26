@@ -1,0 +1,11 @@
+[
+  {"id":"OR-01","specialist_active":true,"check":{"attempted":true,"completed":true,"execution_basis":"specialist_execution","observed_value":"confirmed-success"},"expected_status":"PASS"},
+  {"id":"OR-02","specialist_active":true,"check":{"attempted":true,"completed":true,"execution_basis":"specialist_execution","observed_value":"confirmed-failure"},"expected_status":"FAIL"},
+  {"id":"OR-03","specialist_active":true,"check":{"attempted":true,"completed":false,"execution_basis":"specialist_execution","observed_value":"incomplete"},"expected_status":"UNKNOWN"},
+  {"id":"OR-04","specialist_active":false,"check":null,"expected_status":"NOT_RUN"},
+  {"id":"OR-05","specialist_active":true,"claim":"success","check":null,"expected_status":"UNKNOWN"},
+  {"id":"OR-06-error","specialist_active":true,"check":{"attempted":true,"completed":true,"execution_basis":"specialist_execution","observed_value":"confirmed-success","error":"synthetic-tool-error"},"expected_status":"UNKNOWN"},
+  {"id":"OR-06-absent","specialist_active":true,"check":{"attempted":true,"completed":true,"execution_basis":"specialist_execution","observed_value":null},"expected_status":"UNKNOWN"},
+  {"id":"OR-07","specialist_active":false,"check":{"attempted":true,"completed":true,"execution_basis":"independent_check","observed_value":"confirmed-success"},"expected_status":"PASS"},
+  {"id":"OR-08","specialist_active":false,"check":{"attempted":true,"completed":true,"execution_basis":"independent_check","observed_value":"confirmed-failure"},"expected_status":"FAIL"}
+]
