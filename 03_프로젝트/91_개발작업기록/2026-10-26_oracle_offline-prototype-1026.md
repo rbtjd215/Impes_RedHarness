@@ -10,53 +10,13 @@
   "branch": "codex/oracle-offline-prototype-1026",
   "base_sha": "881680333826c0c9e0db1fb28ba9712369660d9e",
   "created_at": "2026-10-26T16:15:22+09:00",
-  "captured_at": "2026-10-26T16:23:52+09:00",
+  "captured_at": "2026-10-26T17:02:44+09:00",
   "snapshot": {
-    "head": "881680333826c0c9e0db1fb28ba9712369660d9e",
+    "head": "671e5139f3546e33b73c1fcdd03e38ff3e7cad1c",
     "changes": [
       {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/MODULE_SPEC.md"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/QA.md"
-      },
-      {
         "state": " M",
-        "path": "03_프로젝트/04_Oracle_Reporter/README.md"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/offline_oracle.py"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/offline_reporter.py"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/run_offline.py"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/sample_io.json"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/test_oracle_reporter.py"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/04_Oracle_Reporter/판정규칙.md"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/91_개발작업기록/2026-10-26_oracle_module-spec-1026.md"
-      },
-      {
-        "state": "??",
-        "path": "03_프로젝트/91_개발작업기록/2026-10-26_oracle_setup_week03-readiness-1026.md"
+        "path": "03_프로젝트/04_Oracle_Reporter/QA.md"
       }
     ],
     "omitted_path_count": 0,
@@ -150,3 +110,13 @@
 - 업로드 직전 fetch를 다시 수행했고 HEAD/origin/main 0/0, 열린 PR 0개를 확인했다. 같은 작업 브랜치와 task-id를 유지한다.
 - 앞선 공유 체크포인트의 127 tests 및 18개 합성 재현 결과를 사용한다. 그 뒤 변경은 문서·기록뿐이고 코드·fixture·런타임은 동일하다.
 - 이 기록을 포함한 검토된 12개 파일만 commit/push하고 검토용 Draft PR을 만든다. 생성·원격 확인 결과는 후속 체크포인트 또는 완료 보고에서 사실로 확인한다. main 병합은 하지 않는다.
+
+## 공유 확인 · Draft PR 8
+
+- 구현 커밋 `671e5139f3546e33b73c1fcdd03e38ff3e7cad1c`를 작업 브랜치에 push하고 `git ls-remote`에서 동일 SHA를 확인했다. 원격 기록 파일도 실제 읽었다.
+- GitHub connector의 PR 생성은 403 Resource not accessible by integration으로 실패했다. 사용자 GitHub 웹 화면에서 같은 브랜치로 Draft를 선택해 PR 생성에 성공했다.
+- PR: https://github.com/rbtjd215/Impes_RedHarness/pull/8
+- 생성 후 원격 조회: open, draft=true, merged=false, base=main, head=codex/oracle-offline-prototype-1026. 생성 시 PR head SHA는 위 구현 커밋과 일치했다. main 기준은 `881680333826c0c9e0db1fb28ba9712369660d9e`다.
+- 작성자 확인·공개 파일 검토 완료. 개인 Git 값과 저장소 밖 학생 보고서는 공개 파일에 추가하지 않았다. 실제 실랩·A/B 연결·전체 통합 미검증 상태를 PR에 명시했다.
+- 이 체크포인트는 실제 생성 결과를 추가하는 문서 갱신이다. 별도 기록 커밋으로 같은 PR에 반영하며 최종 SHA는 원격 확인·완료 보고에서 증명한다. 코드는 변경하지 않아 앞선 127-test/18-run 결과를 재사용한다.
+- 검토자에게 PR 링크를 전달하는 것은 사용자가 수행한다. 리뷰 요청·댓글·main 병합·자동 병합 설정은 추가하지 않았다. 원격 CI 결과는 완료 보고에서 실제 확인값으로 구분한다.

@@ -63,3 +63,13 @@ synthetic observations from its caller; there is no trusted live observer adapte
 Cloning the remote repository again will not include these uncommitted files.
 For a remote review, they must first be explicitly published on a task branch and
 linked from a PR; local demonstration does not require publication.
+
+## Publication checkpoint
+
+After the local-only verification checkpoint above, publication was explicitly
+requested. Draft PR [#8](https://github.com/rbtjd215/Impes_RedHarness/pull/8) was
+created for review from `codex/oracle-offline-prototype-1026` into `main`.
+The initial implementation commit was `671e5139f3546e33b73c1fcdd03e38ff3e7cad1c`;
+its remote branch SHA and PR head matched. The PR is a draft and was not merged.
+Subsequent documentation records this publication; code and fixtures are unchanged.
+Remote CI is separate from the local 127-test result and must be checked on the PR.
